@@ -1,0 +1,25 @@
+
+**Flight Delay**
+Features (MVP)
+origin -> Origin airport code
+dest -> Destination airport code
+day_of_month -> día del mes
+day_of_week -> día de la semana
+distance -> distance
+fl_date -> -> Flight date (YYYY-MM-DD)
+crs_dep_time -> Scheduled departure time (local, hhmm)
+op_unique_carrier -> aerolínea
+
+Para origin y dest el backend agrega una capa de mapeo ciudad -> aeropuerto antes de llamar al modelo.
+Cómo implementar el mapeo (MVP)
+Opción A (más simple): mapeo desde tu mismo dataset
+Como tu dataset ya trae origin_city_name ↔ origin y dest_city_name ↔ dest, se puede construir un diccionario “ciudad → aeropuerto más frecuente” (modo MVP):
+
+Regla: para cada origin_city_name, elegir el origin más repetido.
+
+Igual para destino.
+
+Esto evita depender de fuentes externas y asegura consistencia con los datos de entrenamiento.
+
+Opción B (más general): mapeo con catálogo de aeropuertos
+Usar una tabla externa de aeropuertos (por ejemplo OpenFlights) para resolver ciudad→IATA, pero igual tendrás el caso “una ciudad, varios aeropuertos” y necesitarás una regla (principal por tráfico, o pedir más campos).
