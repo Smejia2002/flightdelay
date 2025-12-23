@@ -1,0 +1,24 @@
+# Entornos virtuales
+envds/
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Jupyter/IPython
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data grande (solo .gitkeep en raw/processed/)
+data/*.csv
+data/*.parquet
+data/processed/*.csv
+data/processed/*.parquet
