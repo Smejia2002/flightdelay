@@ -23,3 +23,6 @@ Esto evita depender de fuentes externas y asegura consistencia con los datos de 
 
 Opción B (más general): mapeo con catálogo de aeropuertos
 Usar una tabla externa de aeropuertos (por ejemplo OpenFlights) para resolver ciudad→IATA, pero igual tendrás el caso “una ciudad, varios aeropuertos” y necesitarás una regla (principal por tráfico, o pedir más campos).
+
+Dataset
+[DataSet Procesado](https://huggingface.co/datasets/mejiadev7/flight_delay_processed)

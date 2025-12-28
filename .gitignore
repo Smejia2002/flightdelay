@@ -17,6 +17,7 @@ pip-delete-this-directory.txt
 .ipynb_checkpoints/
 *.ipynb_checkpoints
 
+
 # Data grande (solo .gitkeep en raw/processed/)
 data/raw/
 data/raw/*.csv
