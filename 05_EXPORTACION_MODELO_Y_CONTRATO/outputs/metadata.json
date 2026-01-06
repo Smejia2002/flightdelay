@@ -1,0 +1,24 @@
+{
+  "model_type": "LogisticRegression",
+  "version": "V1",
+  "features": {
+    "categorical": [
+      "aerolinea",
+      "origen",
+      "destino"
+    ],
+    "numerical": [
+      "distancia_km",
+      "dep_hour",
+      "dep_dow",
+      "dep_month",
+      "temp",
+      "wind_spd",
+      "precip_1h",
+      "climate_severity_idx"
+    ],
+    "target": "DEP_DEL15"
+  },
+  "inference_time": "T-2h",
+  "notes": "Clima obtenido via API externa con pronostico disponible 2 horas antes."
+}

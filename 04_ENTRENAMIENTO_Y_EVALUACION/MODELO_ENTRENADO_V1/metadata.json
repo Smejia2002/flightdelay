@@ -1,0 +1,28 @@
+{
+  "model_type": "LogisticRegression",
+  "pipeline": true,
+  "features": {
+    "categorical": [
+      "aerolinea",
+      "origen",
+      "destino"
+    ],
+    "numerical": [
+      "distancia_km",
+      "dep_hour",
+      "dep_dow",
+      "dep_month",
+      "temp",
+      "wind_spd",
+      "precip_1h",
+      "climate_severity_idx"
+    ],
+    "target": "DEP_DEL15"
+  },
+  "metrics": {
+    "accuracy": 0.6301,
+    "precision": 0.2767,
+    "recall": 0.5943,
+    "f1": 0.3776
+  }
+}
