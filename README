@@ -1,14 +1,38 @@
 
 **Flight Delay**
-Features (MVP)
-origin -> Origin airport code
-dest -> Destination airport code
-day_of_month -> día del mes
-day_of_week -> día de la semana
-distance -> distance
-fl_date -> -> Flight date (YYYY-MM-DD)
-crs_dep_time -> Scheduled departure time (local, hhmm)
-op_unique_carrier -> aerolínea
+
+Variables para el modelo (según `notebooks/01_eda2.ipynb`)
+
+Target
+- `DEP_DEL15` (1 si el vuelo despega con >= 15 min de retraso)
+
+Features usadas en X
+
+Categoricas
+- `OP_UNIQUE_CARRIER`
+- `ORIGIN` (código IATA)
+- `DEST` (código IATA)
+
+Numericas
+- `YEAR`
+- `MONTH`
+- `DAY_OF_WEEK`
+- `sched_minute_of_day` (minuto del día programado)
+- `DISTANCE`
+- `TEMP`
+- `WIND_SPD`
+- `PRECIP_1H`
+- `CLIMATE_SEVERITY_IDX`
+- `DIST_MET_KM`
+
+Columnas descartadas antes de armar X/y
+- `DEP_DELAY`
+- `FL_DATE`
+- `ORIGIN_CITY_NAME`
+- `DEST_CITY_NAME`
+- `distance_bin`
+- `CRS_DEP_TIME`
+- `STATION_KEY`
 
 Para origin y dest el backend agrega una capa de mapeo ciudad -> aeropuerto antes de llamar al modelo.
 Cómo implementar el mapeo (MVP)
@@ -25,4 +49,4 @@ Opción B (más general): mapeo con catálogo de aeropuertos
 Usar una tabla externa de aeropuertos (por ejemplo OpenFlights) para resolver ciudad→IATA, pero igual tendrás el caso “una ciudad, varios aeropuertos” y necesitarás una regla (principal por tráfico, o pedir más campos).
 
 Dataset
-[DataSet Procesado](https://huggingface.co/datasets/mejiadev7/flight_delay_processed)
+[DataSet Procesado](https://huggingface.co/datasets/mejiadev7/flight_delay)
