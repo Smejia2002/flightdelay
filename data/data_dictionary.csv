@@ -1,0 +1,26 @@
+variable,description,data_type,example
+YEAR,Flight Year,int16,2020
+MONTH,Flight Month (1-12),int8,4
+DAY_OF_MONTH,Day of the Month (1-31),int8,1
+DAY_OF_WEEK,Day of Week (1=Mon; 7=Sun),int8,3
+FL_DATE,Flight Date,datetime64[ns],2020-04-01
+OP_UNIQUE_CARRIER,Unique Carrier Code,category,9E
+ORIGIN,Origin Airport Code,category,ATL
+ORIGIN_CITY_NAME,Origin City Name,category,"Atlanta, GA"
+DEST,Destination Airport Code,category,CSG
+DEST_CITY_NAME,Destination City Name,category,"Columbus, GA"
+CRS_DEP_TIME,Scheduled Departure Time (HHMM),int16,1202
+DEP_DELAY,Departure Delay in minutes,float32,-5.0
+DEP_DEL15,Target: Delay >= 15 min (1=Yes; 0=No),int8,0
+DISTANCE,Flight Distance (miles),float32,150.0
+DEP_HOUR,Departure Hour (0-23),int8,12
+sched_minute_of_day,Scheduled minute of the day (Time converted to min),int16,1202
+distance_bin,Distance interval category (bins),category,"(10.999, 228.0]"
+LATITUDE,Origin Airport Latitude,float32,33.636665
+LONGITUDE,Origin Airport Longitude,float32,-84.428055
+STATION_KEY,Weather Station ID,object,"722190-13874"
+DIST_MET_KM,Distance from Airport to Weather Station (KM),float32,1.488682
+TEMP,Temperature (Celsius),float32,15.0
+WIND_SPD,Wind Speed (m/s),float32,6.2
+PRECIP_1H,Precipitation last hour (mm),float32,0.0
+CLIMATE_SEVERITY_IDX,Calculated Climate Severity Index,int8,0
