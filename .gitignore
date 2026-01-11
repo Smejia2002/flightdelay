@@ -2,6 +2,7 @@
 envds/
 venv/
 .venv/
+.DS_Store
 
 # Python
 __pycache__/
