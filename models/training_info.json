@@ -1,0 +1,50 @@
+{
+  "sample_size": 15000000,
+  "train_size": 10500000,
+  "validation_size": 2250000,
+  "test_size": 2250000,
+  "train_pct": 70.0,
+  "validation_pct": 15.0,
+  "test_pct": 15.0,
+  "feature_names": [
+    "year",
+    "month",
+    "day_of_week",
+    "day_of_month",
+    "dep_hour",
+    "sched_minute_of_day",
+    "distance",
+    "temp",
+    "wind_spd",
+    "precip_1h",
+    "climate_severity_idx",
+    "dist_met_km",
+    "latitude",
+    "longitude",
+    "op_unique_carrier_encoded",
+    "origin_encoded",
+    "dest_encoded"
+  ],
+  "test_metrics": {
+    "accuracy": 0.724628,
+    "precision": 0.35003765170402834,
+    "recall": 0.5350568706099467,
+    "f1": 0.42320915064927567,
+    "roc_auc": 0.7171686107129018,
+    "pr_auc": 0.3836180210157251,
+    "confusion_matrix": [
+      [
+        1403108,
+        422068
+      ],
+      [
+        197519,
+        227305
+      ]
+    ],
+    "true_negatives": 1403108,
+    "false_positives": 422068,
+    "false_negatives": 197519,
+    "true_positives": 227305
+  }
+}

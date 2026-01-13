@@ -1,0 +1,25 @@
+# ========================================
+# FlightOnTime Backend - Dependencies
+# ========================================
+# API REST para predicción de retrasos
+# FastAPI + Uvicorn + Machine Learning
+# ========================================
+
+# Framework Web
+fastapi==0.104.1
+uvicorn[standard]==0.24.0
+python-multipart==0.0.6
+
+# Validación de datos
+pydantic==2.5.0
+email-validator==2.1.0
+
+# Machine Learning (sincronizar con requirements.txt principal)
+joblib==1.3.2
+scikit-learn==1.3.2
+xgboost==2.0.2
+pandas==2.1.3
+numpy==1.26.2
+
+# Utilidades
+python-dateutil==2.8.2

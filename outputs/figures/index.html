@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlightOnTime - Visualizaciones Interactivas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #10AC84;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 10px 5px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 30px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+            border-color: #667eea;
+        }
+
+        .card-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            color: #2C3E50;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .card p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background 0.3s, transform 0.2s;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            background: #764ba2;
+            transform: scale(1.05);
+        }
+
+        .features {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 40px 0;
+        }
+
+        .features h3 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+
+        .features li:before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10AC84;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+            color: #666;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>✈️ FlightOnTime</h1>
+            <p class="subtitle">Visualizaciones Interactivas - Dashboard de Análisis de Retrasos</p>
+            <div>
+                <span class="badge">Plotly Interactive</span>
+                <span class="badge">ML Model XGBoost</span>
+                <span class="badge">15M Training Records</span>
+            </div>
+        </header>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">72.5%</div>
+                <div class="stat-label">Accuracy</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">61.3%</div>
+                <div class="stat-label">Recall</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">0.72</div>
+                <div class="stat-label">ROC-AUC</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">17</div>
+                <div class="stat-label">Features</div>
+            </div>
+        </div>
+
+        <div class="features">
+            <h3>🎨 Características de las Visualizaciones</h3>
+            <ul>
+                <li>Totalmente interactivas - Zoom, pan y hover con información detallada</li>
+                <li>Animaciones suaves y transiciones profesionales</li>
+                <li>Diseño responsive - Se adapta a cualquier tamaño de pantalla</li>
+                <li>Exportación a imágenes de alta calidad (PNG, SVG, JPEG)</li>
+                <li>Colores profesionales y paleta corporativa moderna</li>
+                <li>Optimizadas para presentaciones y demos</li>
+            </ul>
+        </div>
+
+        <h2 style="text-align: center; margin: 40px 0; color: #2C3E50;">📊 Visualizaciones Disponibles</h2>
+
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h2>Matriz de Confusión</h2>
+                <p>Visualización interactiva de la matriz de confusión con métricas detalladas de accuracy, precision,
+                    recall y F1-score.</p>
+                <a href="confusion_matrix_xgboost_interactive.html" class="btn">Ver Gráfico</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📈</div>
+                <h2>Curva ROC</h2>
+                <p>Curva ROC interactiva con AUC = 0.7172. Incluye punto óptimo y comparación con clasificador
+                    aleatorio.</p>
+                <a href="roc_curve_xgboost_interactive.html" class="btn">Ver Gráfico</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📉</div>
+                <h2>Precision-Recall</h2>
+                <p>Curva PR interactiva mostrando el trade-off entre precisión y recall. Average Precision = 0.3836.</p>
+                <a href="pr_curve_xgboost_interactive.html" class="btn">Ver Gráfico</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">⭐</div>
+                <h2>Feature Importance</h2>
+                <p>Top 17 features más importantes del modelo con barras interactivas y gradientes de color.</p>
+                <a href="feature_importance_xgboost_interactive.html" class="btn">Ver Gráfico</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🎚️</div>
+                <h2>Threshold Analysis</h2>
+                <p>Análisis del impacto del umbral de decisión en precision, recall y F1-score con gráficos duales.</p>
+                <a href="threshold_analysis_xgboost_interactive.html" class="btn">Ver Gráfico</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🏆</div>
+                <h2>Comparación de Modelos</h2>
+                <p>Comparación visual de 4 modelos (Logistic Regression, Random Forest, XGBoost, LightGBM).</p>
+                <a href="models_comparison_interactive.html" class="btn">Ver Gráfico</a>
+            </div>
+        </div>
+
+        <footer>
+            <p><strong>FlightOnTime Project</strong> - Hackathon de Aviación Civil 2026</p>
+            <p>Desarrollado con ❤️ usando Python, Plotly, XGBoost y 15M registros de entrenamiento</p>
+            <p style="margin-top: 20px; color: #999;">Última actualización: 2026-01-13</p>
+        </footer>
+    </div>
+</body>
+
+</html>

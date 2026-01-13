@@ -1,0 +1,215 @@
+{
+    "info": {
+        "name": "FlightOnTime API - Hackathon 2026",
+        "_postman_id": "flightontime-api-v2",
+        "description": "Colección de ejemplos para la API de predicción de retrasos de vuelos",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "1. Health Check",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/health",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "health"
+                    ]
+                },
+                "description": "Verifica el estado de la API y si el modelo está cargado"
+            },
+            "response": []
+        },
+        {
+            "name": "2. Model Info",
+            "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                    "raw": "{{base_url}}/model-info",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "model-info"
+                    ]
+                },
+                "description": "Obtiene información sobre el modelo de Machine Learning"
+            },
+            "response": []
+        },
+        {
+            "name": "3. Predict - Caso PUNTUAL",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"aerolinea\": \"DL\",\n  \"origen\": \"ATL\",\n  \"destino\": \"ORD\",\n  \"fecha_partida\": \"2025-06-15T08:00:00\",\n  \"distancia_km\": 975,\n  \"temperatura\": 22.0,\n  \"velocidad_viento\": 8.0,\n  \"precipitacion\": 0.0\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/predict",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "predict"
+                    ]
+                },
+                "description": "Ejemplo de vuelo con alta probabilidad de ser PUNTUAL\n\nVuelo: Delta Airlines (DL)\nRuta: Atlanta (ATL) → Chicago (ORD)\nDistancia: 975km\nClima: Bueno (22°C, viento suave, sin lluvia)\nHora: 8:00 AM (horario favorable)\n\nResultado esperado: Puntual, probabilidad ~30%"
+            },
+            "response": []
+        },
+        {
+            "name": "4. Predict - Caso RETRASADO",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"aerolinea\": \"UA\",\n  \"origen\": \"SFO\",\n  \"destino\": \"JFK\",\n  \"fecha_partida\": \"2025-12-20T18:00:00\",\n  \"distancia_km\": 4150,\n  \"temperatura\": 8.0,\n  \"velocidad_viento\": 32.0,\n  \"precipitacion\": 8.5\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/predict",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "predict"
+                    ]
+                },
+                "description": "Ejemplo de vuelo con alta probabilidad de RETRASO\n\nVuelo: United Airlines (UA)\nRuta: San Francisco (SFO) → New York (JFK)\nDistancia: 4,150km (vuelo largo)\nClima: Malo (8°C, viento fuerte 32km/h, lluvia 8.5mm)\nHora: 6:00 PM (horario con más tráfico)\nTemporada: Diciembre (invierno, más retrasos)\n\nResultado esperado: Retrasado, probabilidad ~75-85%"
+            },
+            "response": []
+        },
+        {
+            "name": "5. Predict - Ejemplo HACKATHON (Oficial)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"aerolinea\": \"AZ\",\n  \"origen\": \"GIG\",\n  \"destino\": \"GRU\",\n  \"fecha_partida\": \"2025-11-10T14:30:00\",\n  \"distancia_km\": 350\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/predict",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "predict"
+                    ]
+                },
+                "description": "Ejemplo OFICIAL del hackathon\n\nVuelo: Líneas Aéreas AZ\nRuta: Rio de Janeiro (GIG) → São Paulo (GRU)\nDistancia: 350km (vuelo corto doméstico)\nHora: 2:30 PM\nFecha: 10 de noviembre 2025\n\nNota: Este es el ejemplo exacto de la descripción del hackathon"
+            },
+            "response": []
+        },
+        {
+            "name": "6. Predict - ERROR (Campos faltantes)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"aerolinea\": \"AA\",\n  \"origen\": \"JFK\"\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/predict",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "predict"
+                    ]
+                },
+                "description": "Ejemplo de error por validación - Campos obligatorios faltantes\n\nCampos presentes: aerolinea, origen\nCampos faltantes: destino, fecha_partida, distancia_km\n\nResultado esperado: Error 422 con detalles de campos faltantes"
+            },
+            "response": []
+        },
+        {
+            "name": "7. Predict - ERROR (Fecha inválida)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"aerolinea\": \"AA\",\n  \"origen\": \"JFK\",\n  \"destino\": \"LAX\",\n  \"fecha_partida\": \"2025/11/10 14:30\",\n  \"distancia_km\": 3983\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/predict",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "predict"
+                    ]
+                },
+                "description": "Ejemplo de error por formato de fecha inválido\n\nFormato incorrecto: \"2025/11/10 14:30\"\nFormato correcto: \"2025-11-10T14:30:00\" (ISO 8601)\n\nResultado esperado: Error 422 con mensaje de validación"
+            },
+            "response": []
+        },
+        {
+            "name": "8. Predict - Vuelo AA JFK-LAX (Demo)",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n  \"aerolinea\": \"AA\",\n  \"origen\": \"JFK\",\n  \"destino\": \"LAX\",\n  \"fecha_partida\": \"2025-03-15T14:30:00\",\n  \"distancia_km\": 3983,\n  \"temperatura\": 25.5,\n  \"velocidad_viento\": 15.3,\n  \"precipitacion\": 0.0\n}"
+                },
+                "url": {
+                    "raw": "{{base_url}}/predict",
+                    "host": [
+                        "{{base_url}}"
+                    ],
+                    "path": [
+                        "predict"
+                    ]
+                },
+                "description": "Vuelo de demostración usado en el proyecto\n\nVuelo: American Airlines (AA)\nRuta: New York (JFK) → Los Angeles (LAX)\nDistancia: 3,983km (costa a costa)\nClima: Bueno (25.5°C, viento moderado, sin lluvia)\nHora: 2:30 PM\nMes: Marzo (temporada media)"
+            },
+            "response": []
+        }
+    ],
+    "variable": [
+        {
+            "key": "base_url",
+            "value": "http://localhost:8000",
+            "type": "string"
+        }
+    ]
+}
