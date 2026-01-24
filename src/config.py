@@ -17,7 +17,7 @@ PROJECT_ROOT = Path(__file__).parent.parent
 
 # Directorios principales
 DATA_DIR = PROJECT_ROOT / "data"
-DATASET_ORIGINAL_DIR = PROJECT_ROOT / "0.0. DATASET ORIGINAL"
+RAW_DATA_DIR = DATA_DIR / "raw"
 NOTEBOOKS_DIR = PROJECT_ROOT / "notebooks"
 SRC_DIR = PROJECT_ROOT / "src"
 MODELS_DIR = PROJECT_ROOT / "models"
@@ -26,7 +26,7 @@ FIGURES_DIR = OUTPUTS_DIR / "figures"
 METRICS_DIR = OUTPUTS_DIR / "metrics"
 
 # Archivos específicos
-DATASET_PATH = DATASET_ORIGINAL_DIR / "dataset_prepared.parquet"
+DATASET_PATH = RAW_DATA_DIR / "dataset_prepared.parquet"
 MODEL_PATH = MODELS_DIR / "model.joblib"
 METADATA_PATH = MODELS_DIR / "metadata.json"
 FEATURE_ENGINEER_PATH = MODELS_DIR / "feature_engineer.joblib"
@@ -213,3 +213,4 @@ CURRENT_MODEL_METRICS = {
     'threshold': 0.5591,
     'total_features': 17,
 }
+
