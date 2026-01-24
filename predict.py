@@ -27,109 +27,107 @@ FEATURE_ENGINEER_PATH = Path("models/feature_engineer.joblib")
 
 
 class FlightDelayPredictor:
-    """Predictor de retrasos de vuelos en tiempo real."""
+    """Predictor de retrasos de vuelos en tiempo real (Backend-Ready)."""
     
     def __init__(self):
-        """Inicializa el predictor cargando el modelo y metadatos."""
-        print("🔄 Cargando modelo entrenado...")
+        """Inicializa cargando recursos con RUTAS ABSOLUTAS."""
+        # TRUCO PRO: Usar rutas absolutas basadas en la ubicación de ESTE archivo
+        # Esto evita que falle si lo llamas desde otra carpeta.
+        current_dir = Path(__file__).parent.resolve()
         
-        # Cargar modelo
-        self.model = joblib.load(MODEL_PATH)
-        print(f"   ✅ Modelo cargado: {MODEL_PATH}")
+        # Ajusta esto según dónde esté tu carpeta models relativa a predict.py
+        # Si predict.py está en la raíz, esto busca en ./models
+        self.models_dir = current_dir / "models" 
         
-        # Cargar metadata
-        with open(METADATA_PATH, 'r') as f:
+        model_path = self.models_dir / "model.joblib"
+        meta_path = self.models_dir / "metadata.json"
+        fe_path = self.models_dir / "feature_engineer.joblib"
+
+        print(f"🔄 Iniciando servicio de predicción desde: {current_dir}")
+
+        if not model_path.exists():
+            raise FileNotFoundError(f"❌ CRÍTICO: No se encuentra el modelo en {model_path}")
+
+        # Cargar recursos
+        self.model = joblib.load(model_path)
+        self.feature_engineer = joblib.load(fe_path)
+        
+        with open(meta_path, 'r') as f:
             self.metadata = json.load(f)
-        print(f"   ✅ Metadatos cargados: {METADATA_PATH}")
+
+        self.threshold = float(self.metadata.get('threshold', 0.55))
+        self.features = self.metadata.get('feature_names', [])
         
-        # Cargar feature engineer
-        self.feature_engineer = joblib.load(FEATURE_ENGINEER_PATH)
-        print(f"   ✅ Feature engineer cargado: {FEATURE_ENGINEER_PATH}")
-        
-        self.threshold = float(self.metadata['threshold'])
-        self.features = self.metadata['feature_names']
-        
-        print(f"\n📊 Modelo: {self.metadata['model_name']}")
-        print(f"📊 Umbral optimizado: {self.threshold:.4f}")
-        print(f"📊 ROC-AUC: {self.metadata['metrics']['roc_auc']:.4f}")
-        print(f"📊 Entrenado: {self.metadata['trained_at']}")
+        print(f"✅ Sistema listo. Umbral: {self.threshold}")
         
     def prepare_input(self, flight_data):
-        """
-        Prepara los datos de entrada para predicción.
-        
-        Args:
-            flight_data (dict): Datos del vuelo
-                {
-                    'year': int,
-                    'month': int,
-                    'day_of_month': int,
-                    'day_of_week': int,
-                    'dep_hour': int,
-                    'sched_minute_of_day': int,
-                    'op_unique_carrier': str,
-                    'origin': str,
-                    'dest': str,
-                    'distance': float,
-                    'temp': float,
-                    'wind_spd': float,
-                    'precip_1h': float,
-                    'climate_severity_idx': float,
-                    'dist_met_km': float,
-                    'latitude': float,
-                    'longitude': float
-                }
-        
-        Returns:
-            pd.DataFrame: DataFrame con las features preparadas
-        """
+        """Prepara los datos asegurando que no falten columnas."""
         df = pd.DataFrame([flight_data])
         
-        # Si hay categóricas, transformarlas
-        if hasattr(self.feature_engineer, 'label_encoders'):
-            df = self.feature_engineer.transform_categorical(df)
-        
-        # Asegurarse de que tiene todas las features necesarias
+        # 1. Transformación Categórica (Si aplica)
+        if hasattr(self.feature_engineer, 'transform_categorical'):
+            try:
+                df = self.feature_engineer.transform_categorical(df)
+            except Exception as e:
+                print(f"⚠️ Advertencia en encoding: {e}")
+
+        # 2. Relleno de seguridad (Backend Safety)
+        # Si el backend olvidó enviar una columna (ej. precip_1h), 
+        # rellenamos con 0 para que el modelo no explote.
         for feature in self.features:
             if feature not in df.columns:
-                print(f"⚠️ Feature faltante: {feature}")
+                print(f"⚠️ Feature faltante detectada: '{feature}'. Usando default (0).")
+                df[feature] = 0.0
         
+        # 3. Ordenar columnas exactamente como aprendió el modelo
         return df[self.features]
     
     def predict(self, flight_data, return_proba=True):
-        """
-        Realiza una predicción de retraso.
-        
-        Args:
-            flight_data (dict): Datos del vuelo
-            return_proba (bool): Si True, retorna probabilidades
-        
-        Returns:
-            dict: Resultado de la predicción
-        """
-        # Preparar datos
-        X = self.prepare_input(flight_data)
-        
-        # Predecir probabilidad
-        proba = self.model.predict_proba(X)[0, 1]
-        
-        # Predicción binaria usando el umbral optimizado
-        prediction = 1 if proba >= self.threshold else 0
-        label = "Retrasado" if prediction == 1 else "Puntual"
-        
-        result = {
-            'prevision': label,
-            'probabilidad': float(proba),
-            'umbral_usado': self.threshold,
-            'confianza': 'Alta' if abs(proba - 0.5) > 0.3 else 'Media' if abs(proba - 0.5) > 0.15 else 'Baja'
-        }
-        
-        if return_proba:
-            result['prob_puntual'] = float(1 - proba)
-            result['prob_retrasado'] = float(proba)
-        
-        return result
-    
+        """Retorna resultados en formato JSON-Safe (sin tipos numpy)."""
+        try:
+            X = self.prepare_input(flight_data)
+            
+            # Predicción
+            proba = self.model.predict_proba(X)[0, 1]
+            
+            # Conversión explícita a tipos nativos de Python (CRÍTICO PARA APIs)
+            proba = float(proba) 
+            prediction = 1 if proba >= self.threshold else 0
+            
+            label = "Retrasado" if prediction == 1 else "Puntual"
+            
+            # Lógica de confianza
+            distancia_umbral = abs(proba - self.threshold)
+            if distancia_umbral > 0.20:
+                confianza = "Alta"
+            elif distancia_umbral > 0.10:
+                confianza = "Media"
+            else:
+                confianza = "Baja"
+
+            result = {
+                'prevision': label,
+                'probabilidad': proba,
+                'umbral_usado': float(self.threshold),
+                'confianza': confianza,
+                'status': 'success' # Flag para el backend
+            }
+            
+            if return_proba:
+                result['prob_puntual'] = float(1 - proba)
+                result['prob_retrasado'] = proba
+                
+            return result
+
+        except Exception as e:
+            # En caso de error, devolvemos estructura de error controlada
+            return {
+                'status': 'error',
+                'message': str(e),
+                'prevision': 'Error',
+                'probabilidad': 0.0
+            }
+            
     def predict_batch(self, flights_data):
         """
         Realiza predicciones para múltiples vuelos.
@@ -347,3 +345,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
