@@ -30,15 +30,17 @@ Clasificación binaria que predice:
 
 ## 🔄 Flujo del modelo
 
-[API REST (Solicitud de Predicción)]
-      ↓
-[Preprocesamiento / Feature Engineering]
-      ↓
-[Carga del Modelo (.joblib)]
-      ↓
-[Inferencia / Predicción]
-      ↓
-[Respuesta API (clasificación + probabilidad)]
+```
+  [API REST (Solicitud de Predicción)]  
+               ↓  
+[Preprocesamiento / Feature Engineering]  
+               ↓  
+   [Carga del Modelo (.joblib)]  
+               ↓  
+   [Inferencia / Predicción]  
+               ↓  
+[Respuesta API (clasificación + probabilidad)]  
+```
 
 ---
 
